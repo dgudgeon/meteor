@@ -49,19 +49,19 @@ class PackageCommand extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $combine = $this->io->getOption('combine') ?: [];
+
         $created = $this->packageCreator->create(
             $this->getWorkingDir(),
             $this->getOutputDir(),
             $this->io->getOption('filename'),
             $this->getConfiguration(),
-            $this->io->getOption('combine'),
+            $combine,
             $this->io->getOption('skip-combine'),
             $this->io->getOption('phar')
         );
 
-        if (!$created) {
-            return 1;
-        }
+        return $created ? 0 : 1;
     }
 
     /**
